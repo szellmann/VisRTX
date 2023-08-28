@@ -144,6 +144,11 @@ struct DeviceGlobalState : public helium::BaseGlobalDeviceState
     OptixModule customIntersectors{nullptr};
   } intersectionModules;
 
+  struct SpatialFieldModules
+  {
+    OptixModule unstructuredField{nullptr};
+  } spatialFieldModules;
+
   struct ObjectUpdates
   {
     helium::TimeStamp lastBLASChange{0};

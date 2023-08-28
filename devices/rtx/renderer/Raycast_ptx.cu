@@ -72,12 +72,12 @@ RT_PROGRAM void __raygen__()
   while (outputOpacity < 0.99f) {
     ray.t.upper = tmax;
     surfaceHit.foundHit = false;
-    intersectSurface(ss, ray, RayType::PRIMARY, &surfaceHit);
+    //intersectSurface(ss, ray, RayType::PRIMARY, &surfaceHit);
 
     vec3 color(0.f);
     float opacity = 0.f;
 
-    if (surfaceHit.foundHit) {
+    /*if (surfaceHit.foundHit) {
       depth = min(depth,
           rayMarchAllVolumes(
               ss, ray, RayType::PRIMARY, surfaceHit.t, color, opacity));
@@ -103,7 +103,7 @@ RT_PROGRAM void __raygen__()
       accumulateValue(outputOpacity, opacity, outputOpacity);
 
       ray.t.lower = surfaceHit.t + surfaceHit.epsilon;
-    } else {
+    } else */{
       const float volumeDepth = rayMarchAllVolumes(
           ss, ray, RayType::PRIMARY, ray.t.upper, color, opacity);
 

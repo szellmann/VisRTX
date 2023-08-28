@@ -141,6 +141,7 @@ target_sources(${PROJECT_NAME} PRIVATE
   scene/volume/spatial_field/SpatialField.cpp
   scene/volume/spatial_field/StructuredRegularField.cpp
   scene/volume/spatial_field/StructuredRegularField.cu
+  scene/volume/spatial_field/UnstructuredField.cu
   scene/volume/spatial_field/UnknownSpatialField.cpp
 
   utility/CudaImageTexture.cpp
@@ -158,6 +159,7 @@ set_source_files_properties(
   frame/Frame.cu
   frame/Denoiser.cu
   scene/surface/geometry/Sphere.cu
+  scene/volume/spatial_field/UnstructuredField.cu
   PROPERTIES COMPILE_FLAGS "--extended-lambda"
 )
 

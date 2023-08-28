@@ -620,18 +620,18 @@ void VisRTXDevice::initDevice()
   };
 
   reportMessage(ANARI_SEVERITY_DEBUG, "Compiling 'debug' renderer");
-  init_module(state.rendererModules.debug, Debug::ptx());
+  //init_module(state.rendererModules.debug, Debug::ptx());
   reportMessage(ANARI_SEVERITY_DEBUG, "Compiling 'raycast' renderer");
   init_module(state.rendererModules.raycast, Raycast::ptx());
   reportMessage(ANARI_SEVERITY_DEBUG, "Compiling 'ao' renderer");
-  init_module(state.rendererModules.ambientOcclusion, AmbientOcclusion::ptx());
+  //init_module(state.rendererModules.ambientOcclusion, AmbientOcclusion::ptx());
   reportMessage(ANARI_SEVERITY_DEBUG, "Compiling 'dpt' renderer");
-  init_module(
-      state.rendererModules.diffusePathTracer, DiffusePathTracer::ptx());
+  //init_module(
+  //    state.rendererModules.diffusePathTracer, DiffusePathTracer::ptx());
   reportMessage(ANARI_SEVERITY_DEBUG, "Compiling 'scivis' renderer");
-  init_module(state.rendererModules.scivis, SciVis::ptx());
+  //init_module(state.rendererModules.scivis, SciVis::ptx());
   reportMessage(ANARI_SEVERITY_DEBUG, "Compiling 'test' renderer");
-  init_module(state.rendererModules.test, Test::ptx());
+  //init_module(state.rendererModules.test, Test::ptx());
 
   reportMessage(ANARI_SEVERITY_DEBUG, "Compiling custom intersectors");
   init_module(state.intersectionModules.customIntersectors, intersection_ptx());

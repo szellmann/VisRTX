@@ -75,7 +75,7 @@ RT_FUNCTION float rayMarchVolume(
   while (opacity < 0.99f && size(currentInterval) >= 0.f) {
     const vec3 p = hit.localRay.org + hit.localRay.dir * currentInterval.lower;
 
-    const float s = sampleSpatialField(field, p);
+    const float s = sampleSpatialField(ss, field, p);
     if (!glm::isnan(s)) {
       const vec4 co = detail::classifySample(volume, s);
       if (color)
@@ -126,7 +126,7 @@ RT_FUNCTION float sampleDistance(ScreenSample &ss,
 
       const vec3 p =
           hit.localRay.org + hit.localRay.dir * (t + hit.localRay.t.lower);
-      const float s = sampleSpatialField(field, p);
+      const float s = sampleSpatialField(ss, field, p);
       if (!glm::isnan(s)) {
         const vec4 co = detail::classifySample(volume, s);
         *albedo = vec3(co);

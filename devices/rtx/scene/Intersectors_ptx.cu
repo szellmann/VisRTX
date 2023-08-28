@@ -207,8 +207,9 @@ RT_PROGRAM void __intersection__()
 {
   if (ray::isIntersectingSurfaces())
     intersectGeometry();
-  else
+  else if (ray::isIntersectingVolumes())
     intersectVolume();
+  else printf("err\n");
 }
 
 } // namespace visrtx

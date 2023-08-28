@@ -31,42 +31,47 @@
 
 #pragma once
 
-#include "gpu/gpu_objects.h"
+#include "array/Array1D.h"
+#include "scene/volume/spatial_field/SpatialField.h"
+// thrust
+#include <thrust/device_vector.h>
 
 namespace visrtx {
 
-RT_FUNCTION const SpatialFieldGPUData &getSpatialFieldData(
-    const FrameGPUData &frameData, DeviceObjectIndex idx)
+struct UnstructuredField : public SpatialField
 {
-  return frameData.registry.fields[idx];
-}
+  UnstructuredField(DeviceGlobalState *d);
+  ~UnstructuredField();
 
-RT_FUNCTION float sampleSpatialField(
-    ScreenSample &ss, const SpatialFieldGPUData &sf, const vec3 &location)
-{
-  float retval = 0.f;
+  void commit() override;
 
-  // TODO: runtime compile errors if these are in the switch()
-  const auto &srf = sf.data.structuredRegular;
-  const auto srfCoords = (location - srf.origin) * srf.invSpacing;
+  box3 bounds() const override;
+  float stepSize() const override; // NOTE: make this position-dependent?
 
-  switch (sf.type) {
-  case SpatialFieldType::STRUCTURED_REGULAR:
-    retval = tex3D<float>(srf.texObj, srfCoords.x, srfCoords.y, srfCoords.z);
-    break;
-  case SpatialFieldType::UNSTRUCTURED: {
-    uint32_t rayType = 0;
-    Ray r;
-    r.org = location; // NOTE: will we eventually also have origin/spacing here?
-    r.dir = vec3(1,1,1);
-    r.t = {0.f,0.f};
-    sampleSpatialFieldWithRay(ss, r, rayType, sf.data.unstructured.cellsTraversable, &retval);
-    break;
-  }
-  default:
-    break;
-  }
-  return retval;
-}
+  OptixBuildInput buildInput() const;
+
+  bool isValid() const override;
+
+ private:
+  SpatialFieldGPUData gpuData() const override;
+  void cleanup();
+
+  void buildGrid();
+
+  struct Parameters
+  {
+    helium::IntrusivePtr<Array1D> vertexPosition;
+    helium::IntrusivePtr<Array1D> vertexData;
+    helium::IntrusivePtr<Array1D> index;
+    helium::IntrusivePtr<Array1D> cellIndex;
+  } m_params;
+
+  thrust::device_vector<box3> m_aabbs;
+  CUdeviceptr m_aabbsBufferPtr{};
+
+  box3 m_cellBounds;
+  OptixTraversableHandle m_traversableCells{};
+  DeviceBuffer m_bvhCells;
+};
 
 } // namespace visrtx

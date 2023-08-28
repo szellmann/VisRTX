@@ -297,6 +297,7 @@ struct SurfaceGPUData
 enum class SpatialFieldType
 {
   STRUCTURED_REGULAR,
+  UNSTRUCTURED,
   UNKNOWN
 };
 
@@ -305,6 +306,12 @@ struct StructuredRegularData
   cudaTextureObject_t texObj{};
   vec3 origin;
   vec3 invSpacing;
+};
+
+struct UnstructuredData
+{
+  float *vertexData;
+  OptixTraversableHandle cellsTraversable;
 };
 
 struct UniformGridData
@@ -321,6 +328,7 @@ struct SpatialFieldGPUData
   union
   {
     StructuredRegularData structuredRegular{};
+    UnstructuredData unstructured;
   } data;
   UniformGridData grid;
 };

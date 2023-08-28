@@ -158,12 +158,17 @@ RT_FUNCTION T &rayData()
 
 RT_FUNCTION bool isIntersectingSurfaces()
 {
-  return optixGetPayload_4();
+  return TraversableType(optixGetPayload_4()) == TraversableType::SURFACES;
 }
 
 RT_FUNCTION bool isIntersectingVolumes()
 {
-  return !isIntersectingSurfaces();
+  return TraversableType(optixGetPayload_4()) == TraversableType::VOLUMES;
+}
+
+RT_FUNCTION bool isSamplingSpatialField()
+{
+  return TraversableType(optixGetPayload_4()) == TraversableType::SPATIAL_FIELD;
 }
 
 RT_FUNCTION const SurfaceGPUData &surfaceData(const FrameGPUData &frameData)

@@ -40,21 +40,18 @@ template <typename T>
 RT_FUNCTION void launchRay(ScreenSample &ss,
     Ray r,
     T rayType,
-    bool tracingSurfaces,
+    OptixTraversableHandle traversable,
+    TraversableType traversableType,
     void *dataPtr,
     uint32_t optixFlags)
 {
-  uint32_t bvhSelection = tracingSurfaces;
+  uint32_t bvhSelection = (uint32_t)traversableType;
 
   uint32_t u0, u1;
   packPointer(&ss, u0, u1);
 
   uint32_t u2, u3;
   packPointer(dataPtr, u2, u3);
-
-  OptixTraversableHandle traversable = tracingSurfaces
-      ? ss.frameData->world.surfacesTraversable
-      : ss.frameData->world.volumesTraversable;
 
   optixTrace(traversable,
       (::float3 &)r.org,
@@ -83,7 +80,13 @@ RT_FUNCTION void intersectSurface(ScreenSample &ss,
     void *dataPtr = nullptr,
     uint32_t optixFlags = OPTIX_RAY_FLAG_DISABLE_ANYHIT)
 {
-  detail::launchRay(ss, r, rayType, true, dataPtr, optixFlags);
+  detail::launchRay(ss,
+      r,
+      rayType,
+      ss.frameData->world.surfacesTraversable,
+      TraversableType::SURFACES,
+      dataPtr,
+      optixFlags);
 }
 
 template <typename T>
@@ -93,7 +96,30 @@ RT_FUNCTION void intersectVolume(ScreenSample &ss,
     void *dataPtr = nullptr,
     uint32_t optixFlags = OPTIX_RAY_FLAG_DISABLE_ANYHIT)
 {
-  detail::launchRay(ss, r, rayType, false, dataPtr, optixFlags);
+  detail::launchRay(ss,
+      r,
+      rayType,
+      ss.frameData->world.volumesTraversable,
+      TraversableType::VOLUMES,
+      dataPtr,
+      optixFlags);
+}
+
+template <typename T>
+RT_FUNCTION void sampleSpatialFieldWithRay(ScreenSample &ss,
+    Ray r,
+    T rayType,
+    OptixTraversableHandle traversable,
+    void *dataPtr = nullptr,
+    uint32_t optixFlags = OPTIX_RAY_FLAG_DISABLE_ANYHIT)
+{
+  detail::launchRay(ss,
+      r,
+      rayType,
+      traversable,
+      TraversableType::SPATIAL_FIELD,
+      dataPtr,
+      optixFlags);
 }
 
 template <typename T>

@@ -48,6 +48,13 @@ namespace visrtx {
 // Utility functions //////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+enum class TraversableType
+{
+  SURFACES,
+  VOLUMES,
+  SPATIAL_FIELD
+};
+
 RT_FUNCTION float atomicMinf(float *address, float val)
 {
   int ret = __float_as_int(*address);

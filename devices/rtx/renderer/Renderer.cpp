@@ -92,7 +92,7 @@ static Renderer *make_renderer(std::string_view subtype, DeviceGlobalState *d)
     }
   };
 
-  if (subtype == "raycast")
+  if (subtype == "raycast" || subtype == "default")
     return new Raycast(d);
   else if (subtype == "ao")
     return new AmbientOcclusion(d);

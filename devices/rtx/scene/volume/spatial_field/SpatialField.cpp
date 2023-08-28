@@ -32,6 +32,7 @@
 #include "SpatialField.h"
 // specific types
 #include "StructuredRegularField.h"
+#include "UnstructuredField.h"
 #include "UnknownSpatialField.h"
 
 namespace visrtx {
@@ -53,6 +54,8 @@ SpatialField *SpatialField::createInstance(
 {
   if (subtype == "structuredRegular")
     return new StructuredRegularField(d);
+  else if (subtype == "unstructured")
+    return new UnstructuredField(d);
   else
     return new UnknownSpatialField(subtype, d);
 }
