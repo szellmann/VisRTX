@@ -116,6 +116,8 @@ void AppCore::parseCommandLine(int argc, const char **argv)
       importerType = ImporterType::ASSIMP_FLAT;
     else if (arg == "-ply")
       importerType = ImporterType::PLY;
+    else if (arg == "-tri")
+      importerType = ImporterType::TRI;
     else if (arg == "-volume")
       importerType = ImporterType::VOLUME;
     else if (importerType != ImporterType::NONE)
@@ -167,6 +169,8 @@ void AppCore::setupSceneFromCommandLine(bool hdriOnly)
         tsd::import_ASSIMP(tsd.ctx, f.second.c_str(), false);
       else if (f.first == ImporterType::ASSIMP_FLAT)
         tsd::import_ASSIMP(tsd.ctx, f.second.c_str(), true);
+      else if (f.first == ImporterType::TRI)
+        tsd::import_TRI(tsd.ctx, f.second.c_str());
       else if (f.first == ImporterType::DLAF)
         tsd::import_DLAF(tsd.ctx, f.second.c_str());
       else if (f.first == ImporterType::NBODY)

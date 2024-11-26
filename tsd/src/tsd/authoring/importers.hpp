@@ -15,6 +15,7 @@ void import_HDRI(Context &ctx, const char *filename);
 void import_NBODY(Context &ctx, const char *filename, bool useDefaultMaterial = false);
 void import_OBJ(Context &ctx, const char *filename, bool useDefaultMaterial = false);
 void import_PLY(Context &ctx, const char *filename);
+void import_TRI(Context &ctx, const char *filename);
 SpatialFieldRef import_RAW(Context &ctx, const char *filename);
 SpatialFieldRef import_FLASH(Context &ctx, const char *filename);
 SpatialFieldRef import_EXA(Context &ctx, const char *filename);

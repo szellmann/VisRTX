@@ -21,6 +21,7 @@ enum class ImporterType
   NBODY,
   PLY,
   OBJ,
+  TRI,
   HDRI,
   VOLUME,
   NONE

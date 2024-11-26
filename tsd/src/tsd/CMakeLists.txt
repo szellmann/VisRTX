@@ -16,6 +16,7 @@ PRIVATE
   authoring/importers/import_OBJ.cpp
   authoring/importers/import_PLY.cpp
   authoring/importers/import_RAW.cpp
+  authoring/importers/import_TRI.cpp
   authoring/importers/import_volume.cpp
   authoring/procedural/generate_cylinders.cpp
   authoring/procedural/generate_material_orb.cpp
