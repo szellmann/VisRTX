@@ -4,6 +4,7 @@
 add_subdirectory(common)
 
 add_subdirectory(demos)
+add_subdirectory(exabricks_viewer)
 add_subdirectory(material_explorer)
 add_subdirectory(viewer)
 add_subdirectory(volume_viewer)
