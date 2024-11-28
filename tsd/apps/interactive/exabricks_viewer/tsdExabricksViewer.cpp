@@ -13,6 +13,7 @@
 #include <vector>
 
 static std::string g_filename;
+static std::string g_trifilename;
 
 namespace tsd_viewer {
 
@@ -62,6 +63,10 @@ class Application : public BaseApplication
       if (!g_filename.empty()) {
         volume = tsd::import_volume(
             core->tsd.ctx, g_filename.c_str(), colorArray, opacityArray);
+      }
+
+      if (!g_trifilename.empty()) {
+        tsd::import_TRI(core->tsd.ctx, g_trifilename.c_str());
       }
 
       if (!volume) {
@@ -251,6 +256,11 @@ int main(int argc, const char *argv[])
   {
     if (argc > 1)
       g_filename = argv[1];
+
+    for (int i=1; i<argc; ++i) {
+      if (std::string(argv[i]) == "-tri")
+        g_trifilename = argv[i+1];
+    }
 
     tsd_viewer::Application app(argc, argv);
     app.run(1920, 1080, "TSD Exabricks Viewer");

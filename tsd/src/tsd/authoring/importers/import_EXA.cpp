@@ -1,6 +1,7 @@
 // Copyright 2024 NVIDIA Corporation
 // SPDX-License-Identifier: Apache-2.0
 
+#include <filesystem>
 #include <fstream>
 #include "tsd/authoring/importers.hpp"
 #include "tsd/authoring/importers/detail/importer_common.hpp"
@@ -32,6 +33,10 @@ SpatialFieldRef import_EXA(Context &ctx, const char *filepath)
     auto baseName = std::string(filepath).substr(
         0, std::string(filepath).length() - std::string(".scalar").length());
     bricksFilepath = baseName+std::string(".bricks");
+  }
+
+  if (!std::filesystem::exists(scalarFilepath)) {
+    scalarFilepath += 's';
   }
 
   std::cout << "BRICKS FILE: " << bricksFilepath << '\n';
