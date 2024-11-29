@@ -50,6 +50,16 @@ VolumeRef import_volume(Context &ctx,
   ctx.tree.insert_last_child(
       ctx.tree.root(), utility::Any(ANARI_VOLUME, volume.index()));
 
+  if (1) {
+    tsd::mat4 mat = math::identity;
+    mat[1][1] = -1;
+
+    auto tr = ctx.tree.insert_last_child(
+        ctx.tree.root(), {mat, "mirror"});
+
+    ctx.tree.insert_last_child(tr, utility::Any(ANARI_VOLUME, volume.index()));
+  }
+
   return volume;
 }
 

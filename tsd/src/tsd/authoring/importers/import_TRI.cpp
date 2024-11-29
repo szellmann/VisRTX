@@ -37,6 +37,8 @@ void import_TRI(Context &ctx, const char *filename)
       index[i].y += vertOffset;
       index[i].z += vertOffset;
     }
+
+    if (numTris >1000000) break;
   }
 
   auto objectName = fileOf(std::string(filename)) + " (TRI file)";
@@ -79,6 +81,17 @@ void import_TRI(Context &ctx, const char *filename)
   auto surface = ctx.createSurface(objectName.c_str(), mesh, mat);
   ctx.tree.insert_last_child(
       ply_root, utility::Any(ANARI_SURFACE, surface.index()));
+
+  if (1) {
+    tsd::mat4 mat = math::identity;
+    mat[1][1] = -1;
+
+    auto tr = ctx.tree.insert_last_child(
+        ctx.tree.root(), {mat, "mirror"});
+
+    ctx.tree.insert_last_child(tr, utility::Any(ANARI_SURFACE, surface.index()));
+  }
+
 }
 
 } // namespace tsd
